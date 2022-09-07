@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LabsInformationProtection
+namespace LabsInformationProtection.lab1
 {
     class EnigmaMachine
     {
-        private Dictionary<Char, Char> plugBoard;
+        private Dictionary<char, char> plugBoard;
         private Rotor[] rotors;
         private Rotor reflector;
         private const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -44,7 +44,7 @@ namespace LabsInformationProtection
                 outerChar = wiring.ToCharArray()[outerPosition];
                 for (int i = 0; i < 26; i++)
                 {
-                    int match = ((int)wiring.ToCharArray()[i]) - 65;
+                    int match = wiring.ToCharArray()[i] - 65;
                     map[i] = (26 + match - i) % 26;
                     revMap[match] = (26 + i - match) % 26;
                 }
@@ -89,7 +89,7 @@ namespace LabsInformationProtection
         }
         private char rotorMap(char c, bool reverse)
         {
-            int cPos = (int)c - 65;
+            int cPos = c - 65;
             if (!reverse)
                 for (int i = rotors.Length - 1; i >= 0; i--)
                     cPos = rotorValue(rotors[i], cPos, reverse);
@@ -100,7 +100,7 @@ namespace LabsInformationProtection
         }
         private int rotorValue(Rotor r, int cPos, bool reverse)
         {
-            int rPos = (int)r.ring - 65;
+            int rPos = r.ring - 65;
             int d;
             if (!reverse)
                 d = r.map[(26 + cPos + r.getOuterPosition() - rPos) % 26];
@@ -110,7 +110,7 @@ namespace LabsInformationProtection
         }
         private char reflectorMap(char c)
         {
-            int cPos = (int)c - 65;
+            int cPos = c - 65;
             cPos = (cPos + reflector.map[cPos]) % 26;
             return alphabet.ToCharArray()[cPos];
         }
@@ -151,8 +151,8 @@ namespace LabsInformationProtection
 
             for (int i = 0; i < rotors.Length; i++)
             {
-                rotors[i].ring = Char.ToUpper(rings[i]);
-                rotors[i].setOuterChar(Char.ToUpper(grund[i]));
+                rotors[i].ring = char.ToUpper(rings[i]);
+                rotors[i].setOuterChar(char.ToUpper(grund[i]));
             }
         }
         public void setSettings(char[] rings, char[] grund, string rotorOrder)
@@ -210,10 +210,10 @@ namespace LabsInformationProtection
         }
         public void addPlug(char c, char cc)
         {
-            if (Char.IsLetter(c) && Char.IsLetter(cc))
+            if (char.IsLetter(c) && char.IsLetter(cc))
             {
-                c = Char.ToUpper(c);
-                cc = Char.ToUpper(cc);
+                c = char.ToUpper(c);
+                cc = char.ToUpper(cc);
                 if (c != cc && !plugBoard.ContainsKey(c))
                 {
                     plugBoard.Add(c, cc);
