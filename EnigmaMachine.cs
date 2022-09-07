@@ -224,7 +224,7 @@ namespace LabsInformationProtection
                 throw new ArgumentException("Invalid character");
         }
     }
-    class EnigmaSettings
+    public class EnigmaSettings
     {
         public char[] rings { get; set; }
         public char[] grund { get; set; }
