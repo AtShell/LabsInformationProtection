@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,7 +21,7 @@ namespace LabsInformationProtection.laba3
         BigInteger y=0;
         BigInteger gk=0;
         BigInteger pk=0;
-        BigInteger secretKey = 0;
+        ulong secretKey = 0;
         public labs3()
         {
             InitializeComponent();
@@ -57,13 +58,10 @@ namespace LabsInformationProtection.laba3
             pk = rand.Next(1, 10000);
             xPrime.Text = x.ToString();
             yPrime.Text = y.ToString();
-            gKey.Text = gk.ToString();
-            pKey.Text = pk.ToString();
-            textBox4.Text = g.fastPow(x,gk,pk).ToString();
-            textBox3.Text = g.fastPow(y,gk,pk).ToString();
-            secretKey = g.fastPow(x * y, gk, pk);
-            textBox5.Text = secretKey.ToString();
+            secretKey = (ulong)g.fastPow(x * y, gk, pk);
             textBox6.Text = secretKey.ToString();
+            if (textBox1.Text != "")
+                textBox2.Text = Encryped();
         }
 
         private void labs3_FormClosed(object sender, FormClosedEventArgs e)
@@ -104,29 +102,30 @@ namespace LabsInformationProtection.laba3
         {
             SaveFile();
         }
-        public string Enctyped()
+        public string Encryped()
         {
-            string encrypedMessage = "";
-            char[]message = textBox1.Text.ToCharArray();
-            foreach(char c in message)
-            {
-                encrypedMessage += (c + secretKey+" ").ToString();
-            }
-            return encrypedMessage;
+                string encrypedMessage = "";
+                char[] message = textBox1.Text.ToCharArray();
+                foreach (char c in message)
+                {
+                    encrypedMessage += (c + secretKey);
+                }
+                return encrypedMessage;
         }
         public string Decryped()
         {
+            string secret = secretKey.ToString();
             string temp="";
+            string temp2="";
             string encrypedMessage = "";
             char[] ci = new char[5];
             char[] message = textBox2.Text.ToCharArray();
             foreach (char c in message)
             {
-                if (c != ' ')
                     temp += c.ToString();
-                else
+                if (temp.Length == secret.Length)
                 {
-                    char ctmp = (char)(Convert.ToInt64(temp) - secretKey);
+                    char ctmp = (char)(Convert.ToInt64(temp) -(long)secretKey);
                     encrypedMessage += ctmp.ToString();
                     temp = "";
                 }
@@ -135,16 +134,24 @@ namespace LabsInformationProtection.laba3
         }
         private void button4_Click(object sender, EventArgs e)
         {
-            if (button4.Text == "Зашифровать")
-            {
-                textBox2.Text = Enctyped();
-                button4.Text = "Расшифровать";
-            }
-            else
-            {
                 textBox2.Text = Decryped();
-                button4.Text = "Зашифровать";
-            }
+            button4.Enabled = false;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (secretKey !=0)
+                textBox2.Text = Encryped();
+            button4.Enabled = true;
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox6.Text == "")
+                secretKey = 0;
+            else
+            secretKey=Convert.ToUInt64(textBox6.Text);
+            textBox2.Text = Encryped();
         }
     }
 }
