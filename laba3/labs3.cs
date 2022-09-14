@@ -116,7 +116,6 @@ namespace LabsInformationProtection.laba3
         {
             string secret = secretKey.ToString();
             string temp="";
-            string temp2="";
             string encrypedMessage = "";
             char[] ci = new char[5];
             char[] message = textBox2.Text.ToCharArray();
