@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -17,45 +18,75 @@ namespace LabsInformationProtection.laba4
     public partial class Labs4 : Form
     {
         string key = "";
+        string input, output;
         int sizeBlock = 16;
-        string planeText = "";
+        string[] Block;
+        OpenFileDialog openFileDialog1 = new OpenFileDialog();
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
         public Labs4()
         {
             InitializeComponent();
         }
         private void OpenFile()
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "txt file (*.txt)|*.txt";
             openFileDialog1.RestoreDirectory = true;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                StreamReader sr = new StreamReader(openFileDialog1.FileName);
+                input = openFileDialog1.FileName;
+                saveFileDialog.Filter= "des file |*.des";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    output = saveFileDialog.FileName;
+                    EncryptDES(input,output);
+                }
+                /*StreamReader sr = new StreamReader(openFileDialog1.FileName);
                 textBox1.Text = sr.ReadToEnd();
-                sr.Close();
+                sr.Close();*/
             }
         }
-        private void SaveFile()
+        private void EncryptDES(string source,string destination)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "Text file(*.txt)|*.txt";
-            saveFileDialog1.RestoreDirectory = true;
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                StreamWriter sw = new StreamWriter(saveFileDialog1.FileName);
-                sw.WriteLine(textBox2.Text);
-                sw.Close();
-            }
+            FileStream fsInput = new FileStream(source, FileMode.Open, FileAccess.Read);
+            FileStream fsEncrypted = new FileStream(destination, FileMode.Create, FileAccess.Write);
+            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
+            DES.Key = ASCIIEncoding.ASCII.GetBytes(key);
+            DES.IV = ASCIIEncoding.ASCII.GetBytes(key);
+            ICryptoTransform cryptoTransform = DES.CreateEncryptor();
+            CryptoStream cryptoStream = new CryptoStream(fsEncrypted, cryptoTransform, CryptoStreamMode.Write);
+            byte[] byteArray = new byte[fsInput.Length - 0];
+            fsInput.Read(byteArray, 0, byteArray.Length);
+            cryptoStream.Write(byteArray, 0, byteArray.Length);
+            cryptoStream.Close();
+            fsInput.Close();
+            fsEncrypted.Close();
+        }
+        private void DecryptDES(string source,string destination)
+        {
+            FileStream fsInput = new FileStream(source, FileMode.Open, FileAccess.Read);
+            FileStream fsEncrypted = new FileStream(destination, FileMode.Create, FileAccess.Write);
+            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
+            DES.Key = ASCIIEncoding.ASCII.GetBytes(key);
+            DES.IV = ASCIIEncoding.ASCII.GetBytes(key);
+            ICryptoTransform cryptoTransform = DES.CreateDecryptor();
+            CryptoStream cryptoStream = new CryptoStream(fsEncrypted, cryptoTransform, CryptoStreamMode.Write);
+            byte[] byteArray = new byte[fsInput.Length - 0];
+            fsInput.Read(byteArray, 0, byteArray.Length);
+            cryptoStream.Write(byteArray, 0, byteArray.Length);
+            cryptoStream.Close();
+            fsInput.Close();
+            fsEncrypted.Close();
+            MessageBox.Show("Данные расшифрованы");
         }
         private string GenerateKey()
         {
-            string key = "";
-            while (key.Length != 16)
+            int rnd=0;
+            while (Convert.ToString(rnd,2).Length != 16)
             {
                 Random rand = new Random();
-                key = Convert.ToString(rand.Next(0, 65535), 2);
+                rnd = rand.Next(0, 65535);
             }
-            return key;
+            return Convert.ToString(rnd);
         }
         private string KeyVerification(string newKey)
         {
@@ -71,11 +102,15 @@ namespace LabsInformationProtection.laba4
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            if (KeyBox.Text == "")
+            key = KeyBox.Text;
+            /*if (KeyBox.Text == "")
+            {
+                MessageBox.Show("Введенный ключ имеет не верный формат\nКлюч будет автоматически сгенерирован");
                 key = GenerateKey();
+            }
             else
                 key = KeyVerification(KeyBox.Text);
-            KeyBox.Text = key;
+            KeyBox.Text = key;*/
         }
 
         private void Labs4_FormClosed(object sender, FormClosedEventArgs e)
@@ -83,46 +118,124 @@ namespace LabsInformationProtection.laba4
             Form1 form1 = new Form1();
             form1.Show();
         }
-        private string StringToBinary(string input)
+        /*private void Encrypt()
         {
-            StringBuilder output = new StringBuilder();
-            foreach (byte b in System.Text.Encoding.Default.GetBytes(input))
-                output.Append(Convert.ToString(b, 2).PadLeft(8, '0'));
-            while (true)
+            BitTextToBlock(StringToBinary(textBox1.Text));
+            string tkey = key;
+            for (int j = 0; j < 16; j++)
             {
-                if (output.Length % sizeBlock != 0)
-                    output.Append(Convert.ToString('#',2));
+                for (int i = 0; i < Block.Length; i++)
+                    Block[i] = EncodeDES_One_Round(Block[i], tkey);
+
+                tkey = KeyToNextRound(tkey);
+            }
+           tkey = KeyToPrevRound(tkey);
+            //decodekey=StringToBinary
+            string res = "";
+            for (int i = 0; i < Block.Length; i++)
+                res += Block[i];
+            textBox2.Text = res;
+        }
+        private string EncodeDES_One_Round(string input, string key)
+        {
+            string L = input.Substring(0, input.Length / 2);
+            string R = input.Substring(input.Length / 2, input.Length / 2);
+
+            return (R + XOR(L, f(R, key)));
+        }
+        private string XOR(string str1, string str2)
+        {
+            string result = "";
+            for (int i = 0; i < str1.Length; i++)
+            {
+                bool a = Convert.ToBoolean(Convert.ToInt32(str1[i].ToString()));
+                bool b = Convert.ToBoolean(Convert.ToInt32(str2[i].ToString()));
+
+                if (a ^ b)
+                    result += "1";
                 else
-                    break;
+                    result += "0";
             }
-            return output.ToString();
+            return result;
         }
-        private string[] BitTextToBlock(string input)
+        private string f(string s1, string s2)
         {
-            string[] output = new string[input.Length/sizeBlock];
-            return output;
+            return XOR(s1, s2);
         }
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private string KeyToNextRound(string tkey)
         {
-            if (textBox1.Text != "")
+            for (int i = 0; i < 2; i++)
             {
-               textBox2.Text= StringToBinary(textBox1.Text);
+                tkey = tkey[tkey.Length - 1] + tkey;
+                tkey = tkey.Remove(tkey.Length - 1);
             }
+            return tkey;
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private string KeyToPrevRound(string tkey)
         {
-            OpenFile();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            SaveFile();
-        }
-
+            for (int i = 0; i < 2; i++)
+            {
+                tkey = tkey + tkey[0];
+                tkey = tkey.Remove(0, 1);
+            }
+            return tkey;
+        }*/
         private void button4_Click(object sender, EventArgs e)
         {
-            //Decode();
+            /*openFileDialog1.Filter = "txt file (*.txt)|*.txt";
+            openFileDialog1.RestoreDirectory = true;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                input = openFileDialog1.FileName;
+                saveFileDialog.Filter = "txt file (*.txt)|*.txt";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    output = saveFileDialog.FileName;
+                }*/
+                openFileDialog1.Filter = "des file |*.des";
+                openFileDialog1.RestoreDirectory = true;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                input = openFileDialog1.FileName;
+                saveFileDialog.Filter = "txt file (*.txt)|*.txt";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    output = saveFileDialog.FileName;
+                    DecryptDES(input, output);
+                }
+            }
+            labelText.Text = "Результат дешифрования";
+        }
+
+        private void KeyBox_MouseHover(object sender, EventArgs e)
+        {
+            /*if (KeyBox.Text != "")
+            {
+
+            string temp = KeyBox.Text;
+                KeyBox.Text = Convert.ToString(Convert.ToInt32(key), 2);
+            }*/
+        }
+
+        private void KeyBox_MouseLeave(object sender, EventArgs e)
+        {
+            //KeyBox.Text = key;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            OpenFile();
+            labelText.Text = "Результат шифрования";
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void KeyBox_TextChanged(object sender, EventArgs e)
+        {
+            key=KeyBox.Text;
         }
     }
 }

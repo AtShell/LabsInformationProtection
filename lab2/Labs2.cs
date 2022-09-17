@@ -24,48 +24,29 @@ namespace LabsInformationProtection.lab2
         //BigInteger n;
         ulong n=0;
         ulong d=0;
-        int ex = 0;
+        ulong ex = 0;
         public Labs2()
         {
             InitializeComponent();
         }
-        /*public void MillerRabinTest()
+        public static ulong RandPandQ()
         {
-            if (p.MillerRabinTest(10) == true && q.MillerRabinTest(10) == true)
+            int result = 0;
+            string key = "";
+            do
             {
-                n = p.result * q.result;
+                Random rand = new Random();
+                result = rand.Next(0, 65535);
+                key = Convert.ToString(result, 2);
             }
-            else
-            {
-                p.GetNearestPrime();
-                q.GetNearestPrime();
-                n = p.result * q.result;
-            }
-        }*/
-        public static ulong RandPandQ(int count)
-        {
-            Random rand = new Random();
-            byte[] buffer = new byte[count];
-            rand.NextBytes(buffer);
-            ulong result = (ulong)Math.Abs(BitConverter.ToInt64(buffer, 0) / 100000);
-            return result;
+            while (key.Length < 12 && key.Length > 16);
+            return (ulong)result;
         }
-        public static int RandE()
+        public static ulong RandE()
         {
-            int[] FermatNumbers = new int[] { 3, 5, 17, 257, 65537 };
+            ulong[] FermatNumbers = new ulong[] { 3, 5, 17, 257, 65537 };
             Random rand = new Random();
             return FermatNumbers[rand.Next(0, FermatNumbers.Length)];
-
-           /* Random rand = new Random();
-            int e = rand.Next(2,999);
-            while (true)
-            {
-                if (is_prime((ulong)e) == false)
-                    e++;
-                else
-                    break;
-            }
-            return e;*/
         }
         public static bool is_prime(ulong n)
         {
@@ -82,7 +63,7 @@ namespace LabsInformationProtection.lab2
         }
         public static ulong number(int count)
         {
-            ulong number = RandPandQ(count);
+            ulong number = RandPandQ();
             while (true)
             {
                 if (is_prime(number)==false)
@@ -94,10 +75,6 @@ namespace LabsInformationProtection.lab2
         }
         private void button1_Click(object sender, EventArgs e)
         {
-           /* ulong n = Convert.ToUInt64(textBox3.Text);
-            ulong pow = Convert.ToUInt64(textBox4.Text);
-            ulong mod = Convert.ToUInt64(textBox7.Text);
-            textBox2.Text = fastPow(n, pow, mod).ToString();*/
             ulong p = 0;
             ulong q = 0;
             if (textBox1.Text != "")
@@ -106,17 +83,16 @@ namespace LabsInformationProtection.lab2
                 {
                     textBox3.Text = number(8).ToString();
                     textBox4.Text = number(8).ToString();
-                    ex = RandE();
                 }
                 if (textBox3.Text!=""&&(is_prime(Convert.ToUInt64(textBox3.Text)) && is_prime(Convert.ToUInt64(textBox4.Text))))
                 {
-                   if(ex==0)
-                        ex = RandE();
                     p = Convert.ToUInt64(textBox3.Text);
                     q = Convert.ToUInt64(textBox4.Text);
                     string s = textBox1.Text.ToString();
                     n = p * q;
                     ulong nf = (p - 1) * (q - 1);
+                    ex = 5;
+                    //ex = RandE();
                     d = Calc_d(ex,nf);
                     //ulong result = RSA_Encode(s, ex, n);
                     //textBox2.Text = result.ToString();
@@ -144,13 +120,12 @@ namespace LabsInformationProtection.lab2
             }
             return v % mod;
         }
-        public static string RSA_Encode(string s, int ex, ulong n)
+        public static string RSA_Encode(string s, ulong ex, ulong n)
         {
             string res = "";
-            //ulong r = Convert.ToUInt64(s);
             foreach(char c in s)
             {
-                res += fastPow(Convert.ToUInt64(c.ToString()), (ulong)ex,n)+" ";
+                res += fastPow(Convert.ToUInt64(c), ex,n)+" ";
             }
             return res;
             /*ulong result = fastPow(r, (ulong)ex, n);
@@ -192,9 +167,23 @@ namespace LabsInformationProtection.lab2
             //temp = (ulong)((Math.Pow(res,ex) %n));
             return temp;*/
         }
-        public static ulong Calc_d(int ex,ulong nf)
-        {
-            return (2 * nf + 1) / (ulong)ex;
+            public static ulong Calc_d(ulong ex,ulong nf){
+            ex %= nf;
+            if (ex == 0)
+                return nf;
+            return Calc_d(nf,ex);
+            //return (2 * nf + 1) / 2;
+            //return (2 * nf + 1) / ex;
+            /*ulong d = nf - 1;
+
+            for (ulong i = 2; i <= nf; i++)
+                if ((nf % i == 0) && (d % i == 0)) //если имеют общие делители
+                {
+                    d--;
+                    i = 1;
+                }
+
+            return d;*/
             /*Random rand = new Random(DateTime.Now.Millisecond);
             ulong temp_d;
             ulong d = 0;
@@ -230,7 +219,7 @@ namespace LabsInformationProtection.lab2
             foreach (char c in s)
             {
                 if (c != ' ')
-                    temp += c.ToString();
+                    temp += c;
                 else
                 {
                     res += fastPow(Convert.ToUInt64(temp), d, n);

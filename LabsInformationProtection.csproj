@@ -9,6 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="lab2\Labs2.cs" />
+    <Compile Remove="lab2\Labs2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="lab2\Labs2.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Reports\" />
   </ItemGroup>
 
