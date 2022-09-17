@@ -43,6 +43,7 @@ namespace LabsInformationProtection.laba4
                 /*StreamReader sr = new StreamReader(openFileDialog1.FileName);
                 textBox1.Text = sr.ReadToEnd();
                 sr.Close();*/
+                /*testmessageingit*/
             }
         }
         private void EncryptDES(string source,string destination)
