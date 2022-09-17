@@ -66,7 +66,7 @@ namespace LabsInformationProtection.laba3
 
         private void labs3_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Form1 form1 = new Form1();
+            MainForm form1 = new MainForm();
             form1.Show();
         }
         private void OpenFile()

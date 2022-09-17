@@ -2,12 +2,13 @@ using LabsInformationProtection.lab1;
 using LabsInformationProtection.lab2;
 using LabsInformationProtection.laba3;
 using LabsInformationProtection.laba4;
+using LabsInformationProtection.laba5;
 
 namespace LabsInformationProtection
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -48,6 +49,13 @@ namespace LabsInformationProtection
             this.Hide();
             Labs4 labs4 = new Labs4();
             labs4.Show();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Labs5 laba5 = new Labs5();
+            laba5.Show();
         }
     }
 }

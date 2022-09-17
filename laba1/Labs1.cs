@@ -29,7 +29,7 @@ namespace LabsInformationProtection
 
         private void Labs1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Form1 form1 = new Form1();
+            MainForm form1 = new MainForm();
             form1.Show();
         }
 

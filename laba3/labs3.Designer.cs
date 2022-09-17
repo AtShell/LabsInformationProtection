@@ -184,7 +184,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(658, 628);
+            this.ClientSize = new System.Drawing.Size(658, 439);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textBox6);
@@ -201,7 +201,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.Name = "labs3";
-            this.Text = "labs3";
+            this.Text = "Лабораторная работа №3 Диффи-Хелман";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.labs3_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();

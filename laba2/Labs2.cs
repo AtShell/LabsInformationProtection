@@ -87,7 +87,7 @@ namespace LabsInformationProtection.lab2
         
         private void Labs2_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Form1 form1 = new Form1();
+            MainForm form1 = new MainForm();
             form1.Show();
         }
         private void button2_Click(object sender, EventArgs e)

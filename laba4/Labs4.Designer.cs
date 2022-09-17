@@ -33,7 +33,7 @@
             this.KeyBox = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textOutput = new System.Windows.Forms.TextBox();
             this.labelText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -66,8 +66,6 @@
             this.KeyBox.Size = new System.Drawing.Size(141, 23);
             this.KeyBox.TabIndex = 46;
             this.KeyBox.TextChanged += new System.EventHandler(this.KeyBox_TextChanged);
-            this.KeyBox.MouseLeave += new System.EventHandler(this.KeyBox_MouseLeave);
-            this.KeyBox.MouseHover += new System.EventHandler(this.KeyBox_MouseHover);
             // 
             // button5
             // 
@@ -88,14 +86,14 @@
             this.label4.TabIndex = 48;
             this.label4.Text = "Ключ";
             // 
-            // textBox1
+            // textOutput
             // 
-            this.textBox1.Location = new System.Drawing.Point(329, 23);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(459, 163);
-            this.textBox1.TabIndex = 49;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textOutput.Location = new System.Drawing.Point(329, 23);
+            this.textOutput.Multiline = true;
+            this.textOutput.Name = "textOutput";
+            this.textOutput.ReadOnly = true;
+            this.textOutput.Size = new System.Drawing.Size(459, 163);
+            this.textOutput.TabIndex = 49;
             // 
             // labelText
             // 
@@ -110,16 +108,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 198);
             this.Controls.Add(this.labelText);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textOutput);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.KeyBox);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label1);
             this.Name = "Labs4";
-            this.Text = "Labs4";
+            this.Text = "Лабораторная работа №4 DES";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Labs4_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -133,7 +131,7 @@
         private TextBox KeyBox;
         private Button button5;
         private Label label4;
-        private TextBox textBox1;
+        private TextBox textOutput;
         private Label labelText;
     }
 }
