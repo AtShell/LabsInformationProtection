@@ -3,6 +3,7 @@ using LabsInformationProtection.lab2;
 using LabsInformationProtection.laba3;
 using LabsInformationProtection.laba4;
 using LabsInformationProtection.laba5;
+using LabsInformationProtection.laba6;
 
 namespace LabsInformationProtection
 {
@@ -56,6 +57,13 @@ namespace LabsInformationProtection
             this.Hide();
             Labs5 laba5 = new Labs5();
             laba5.Show();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Labs6 laba6 = new Labs6();
+            laba6.Show();
         }
     }
 }
