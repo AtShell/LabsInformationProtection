@@ -71,7 +71,7 @@ namespace LabsInformationProtection.laba6
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
+                MessageBox.Show(ex.StackTrace);
                 if (writer != null)
                     writer.Close();
                 File.Delete(pOutputFileName);
@@ -193,7 +193,7 @@ namespace LabsInformationProtection.laba6
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
+                MessageBox.Show(ex.StackTrace);
                 if (writer != null)
                     writer.Close();
                 File.Delete(pOutputFileName);
