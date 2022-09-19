@@ -115,6 +115,7 @@ namespace LabsInformationProtection.laba4
             {
                 key = GenerateKey();
                 KeyBox.Text = key;
+                MessageBox.Show("Ключ имеет не верный формат");
             }
             OpenFile();
             labelText.Text = "Результат шифрования";
@@ -123,5 +124,9 @@ namespace LabsInformationProtection.laba4
         {
             key = KeyBox.Text;
         }
+        /*
+         * DES
+         * 
+         */ 
     }
 }

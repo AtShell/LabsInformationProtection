@@ -24,7 +24,9 @@ namespace LabsInformationProtection.lab2
             'а','б','в','г','д','е','ё','ж','з','и','к','л','м','н','о','п','р','с',
             'т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я',
             'А','Б','В','Г','Д','Е','Ё','Ж','З','И','К','Л','М','Н','О','П','Р','С',
-            'Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'
+            'Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я',
+            'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+            'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
         };
         RSA r = new RSA();
         List<BigInteger> BlockText=new List<BigInteger>();
@@ -67,10 +69,6 @@ namespace LabsInformationProtection.lab2
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            if ((Regex.IsMatch(textInput.Text, @"^[a-zA-Z]+$")) && textInput.Text.Length > 0)
-                MessageBox.Show("Недопустимый символ, доступны только русские буквы, символы и цифры");
-            else
-            {
                 if ((textP.Text != "") || (textQ.Text != "") || (textN.Text != "") || (textD.Text != ""))
                 {
                     textOutput.Text = "";
@@ -82,7 +80,6 @@ namespace LabsInformationProtection.lab2
                 {
                     CreateKey();
                 }
-            }
         }
         
         private void Labs2_FormClosed(object sender, FormClosedEventArgs e)
@@ -144,5 +141,18 @@ namespace LabsInformationProtection.lab2
                 MessageBox.Show("Ключ успешно сохранен");
             }
         }
+        /*
+         *Алгоритм
+         *вводятся 2 простых числа 
+         *Вычисляется n=p*q
+         *вычисляется nf=(p-1)*(q-1)
+         *вычисляется открытая экспонента e
+         *вычисляется d(расширенным методом Евклида)
+         *Шифрование
+         *Строка посимвольно шифруется
+         *C=m^e mod n
+         *Дешифрование
+         *M=c^d mod n
+         */
     }
 }

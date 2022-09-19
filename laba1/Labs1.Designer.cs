@@ -148,9 +148,9 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label6.Location = new System.Drawing.Point(296, 103);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 15);
+            this.label6.Size = new System.Drawing.Size(42, 15);
             this.label6.TabIndex = 11;
-            this.label6.Text = "Кольца";
+            this.label6.Text = "Диски";
             // 
             // textBox4
             // 

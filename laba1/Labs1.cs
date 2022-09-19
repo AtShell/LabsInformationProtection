@@ -118,11 +118,17 @@ namespace LabsInformationProtection
                         comboBox1.SelectedIndex = j;
                 }
             }
-            for (int j = 0; j < 2; j++)
+            for (int j = 0; j < 3; j++)
             {
                 if (comboBox2.Items[j].ToString() == key[14].ToString())
                     comboBox2.SelectedIndex = j;
             }
         }
+        /*
+         * Алгоритм
+         * Исходную строку посимвольно шифруем:
+         * 1 ротором-2 ротором-3 ротором прохходит через рефлектор и шифруется в обратном порядке 3-2-1
+         * После шифрования роторы "поворачиваются"
+         */ 
     }
 }

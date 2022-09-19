@@ -21,9 +21,9 @@ namespace LabsInformationProtection.lab2
             if (a > 1)
                 return false;
             else return true;
-        }//проверка на то что НОД у a и b 1
+        }
 
-        public static BigInteger ExtendedEuclide(BigInteger a, BigInteger b)//Принимает E и N
+        public static BigInteger ExtendedEuclide(BigInteger a, BigInteger b)
         {
             BigInteger x1 = 0;
             BigInteger x2 = 1;

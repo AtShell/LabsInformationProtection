@@ -23,7 +23,7 @@ namespace LabsInformationProtection.lab2
                 result = new BigInteger(temp);
             }
             return result;
-        }//Генерирует числа типа BigInteger от min до max
+        }
 
         public static bool MillerRabinTest(BigInteger n, int k)
         {
