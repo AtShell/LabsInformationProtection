@@ -67,7 +67,7 @@ namespace LabsInformationProtection.lab2
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            if ((Regex.IsMatch(textInput.Text, @"^@""^[а-яА-Яa-zA-Z ]+$")) && textInput.Text.Length > 0)
+            if ((Regex.IsMatch(textInput.Text, @"^[a-zA-Z]+$")) && textInput.Text.Length > 0)
                 MessageBox.Show("Недопустимый символ, доступны только русские буквы, символы и цифры");
             else
             {
