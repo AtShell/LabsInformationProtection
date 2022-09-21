@@ -44,11 +44,6 @@ namespace LabsInformationProtection.laba6
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 InputFile.Text = openFileDialog1.SafeFileName;
-                /*saveFileDialog1.FileName= openFileDialog1.FileName.Remove
-                    (openFileDialog1.FileName.Length - 3, 3) + "LZW";
-                OutputFile.Text = InputFile.Text.Remove(InputFile.Text.Length - 3, 3) + "LZW";
-                FileBeforeLZW.Text= InputFile.Text.Remove(InputFile.Text.Length - 3, 3)+"(NEW)" + InputFile.Text.Remove(0,InputFile.Text.Length - 3);*/
-                //saveFileDialog1.FileName= openFileDialog1.FileName;
             }
         }
         private void Compress()
@@ -68,7 +63,6 @@ namespace LabsInformationProtection.laba6
         {
             if (decode == true)
             {
-                //saveFileDialog2.Filter = "Text file(*.txt)|*.txt";
                 saveFileDialog2.ShowDialog();
             }
             if (decode == false)
