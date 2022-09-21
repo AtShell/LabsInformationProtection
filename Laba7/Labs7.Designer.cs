@@ -122,7 +122,7 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Name = "Labs7";
-            this.Text = "Лабораторная работа 7";
+            this.Text = "Лабораторная работа №7";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Labs7_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
