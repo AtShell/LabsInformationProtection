@@ -45,12 +45,27 @@ namespace LabsInformationProtection.Laba8
             MainForm mf = new MainForm();
             mf.Show();
         }
-        private string CuteBlock()
+        private string CuteBlock(string inputString)
         {
-            //edit and release
+            string encryptedText="";
+            //int size=inputString.Length;
+            while (inputString.Length % 2 != 0)
+            {
+                string tmp = inputString;
+                inputString = 0 + tmp;
+            }
+               // inputString.Insert(0, "0");
+            int countBlock = inputString.Length / 2;
+            for (int i = 0; i <= countBlock; i+=2)
+            {
+                string temp = inputString[i].ToString() + inputString[i + 1].ToString();
+                encryptedText += Encrypt(temp);
+            }
+            return encryptedText;
+            /*edit and release
             string input = InputText.Text;
-            Encrypt(input);
-            return "";
+            return Encrypt(input);
+            //return "";*/
         }
         private string Encrypt(string input)
         {
@@ -73,9 +88,9 @@ namespace LabsInformationProtection.Laba8
 
         private void button2_Click(object sender, EventArgs e)
         {
-            button2.Enabled = false;
+           button2.Enabled = false;
             if (outputText.Text != "")
-                outputText.Text = CuteBlock();
+                outputText.Text = Decrypt(CheckString(outputText.Text));
         }
 
         private string Decrypt(string input)
@@ -96,12 +111,21 @@ namespace LabsInformationProtection.Laba8
             }
             return res;
         }
+        private string CheckString(string res)
+        {
+            int input = InputText.Text.Length;
+            while (res.Length != input)
+            {
+               res=res.Remove(0, 1);
+            }
+            return res;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             if (InputText.Text.Length > 0)
             {
                 CreateKey();
-                outputText.Text = CuteBlock();
+                outputText.Text = CuteBlock(InputText.Text);
                 button2.Enabled = true;
             }
             else
