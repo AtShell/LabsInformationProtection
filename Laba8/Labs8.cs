@@ -26,7 +26,6 @@ namespace LabsInformationProtection.Laba8
         };
         int N = alphabet.Length;
         string key = "";
-        int k, x, z ;
         public Labs8()
         {
             InitializeComponent();
@@ -35,8 +34,6 @@ namespace LabsInformationProtection.Laba8
         {
             key = "";
             Random random = new Random();
-            Random random2 = new Random();
-            int count = random2.Next(1, 10);
             for(int i = 0; i < InputText.Text.Length; i++)
                 key += alphabet[random.Next(0, alphabet.Length)];
         }
@@ -44,28 +41,6 @@ namespace LabsInformationProtection.Laba8
         {
             MainForm mf = new MainForm();
             mf.Show();
-        }
-        private string CuteBlock(string inputString)
-        {
-            string encryptedText="";
-            //int size=inputString.Length;
-            while (inputString.Length % 2 != 0)
-            {
-                string tmp = inputString;
-                inputString = 0 + tmp;
-            }
-               // inputString.Insert(0, "0");
-            int countBlock = inputString.Length / 2;
-            for (int i = 0; i <= countBlock; i+=2)
-            {
-                string temp = inputString[i].ToString() + inputString[i + 1].ToString();
-                encryptedText += Encrypt(temp);
-            }
-            return encryptedText;
-            /*edit and release
-            string input = InputText.Text;
-            return Encrypt(input);
-            //return "";*/
         }
         private string Encrypt(string input)
         {
@@ -77,12 +52,12 @@ namespace LabsInformationProtection.Laba8
                     Array.IndexOf(alphabet, key[key_index])) % N;
 
                 res += alphabet[c];
+
                 key_index++;
 
                 if ((key_index + 1) == key.Length)
                     key_index = 0;
             }
-
             return res;
         }
 
@@ -100,7 +75,7 @@ namespace LabsInformationProtection.Laba8
             foreach (char symbol in input)
             {
                 int p = (Array.IndexOf(alphabet, symbol) + N -
-                    Array.IndexOf(alphabet, key[key_index])) % N;
+                            Array.IndexOf(alphabet, key[key_index])) % N;
 
                 res += alphabet[p];
 
@@ -125,7 +100,7 @@ namespace LabsInformationProtection.Laba8
             if (InputText.Text.Length > 0)
             {
                 CreateKey();
-                outputText.Text = CuteBlock(InputText.Text);
+                outputText.Text = Encrypt(InputText.Text);
                 button2.Enabled = true;
             }
             else
